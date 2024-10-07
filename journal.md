@@ -66,6 +66,7 @@ J'ai travaillé avec Git durant cette séance. J'ai mis en pratique l'ensemble d
 	- git add ou git rm
 	- git commit -m ""
 	- git push
+	- git tag
 	- git log
 
 - La syntaxe générale: 
