@@ -226,7 +226,7 @@ D’ici, je me suis renseignée sur les limitations et options des commandes cut
 	- Pour le *stdout* qui contenait le résultat, je l'ai redirigé vers un nouveau fichier dans mon dépôt local.
 
 # Séance 3
-## exercices git
+## exercices git correction d'erreurs
 Cette ligne doit rester après correction.
 lorem ipsum.
 Encore une erreur !
