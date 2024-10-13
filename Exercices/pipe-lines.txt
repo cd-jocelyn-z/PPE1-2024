@@ -1,0 +1,33 @@
+1a.
+touch comptes.txt
+
+echo "Annotations en 2016 :" > PPE1-2024/Exercices/comptes.txt
+cat ann/2016/*/*.ann | wc -l >> PPE1-2024/Exercices/comptes.txt
+
+echo "Annotations en 2017 :" >> PPE1-2024/Exercices/comptes.txt
+cat ann/2017/*/*.ann | wc -l >> PPE1-2024/Exercices/comptes.txt
+
+echo "Annotations en 2018 :" >> PPE1-2024/Exercices/comptes.txt
+cat ann/2018/*/*.ann | wc -l >> PPE1-2024/Exercices/comptes.txt
+
+1b.
+touch locations.txt
+
+echo "Annotations en 2016 :" >> PPE1-2024/Exercices/locations.txt
+cat ann/2016/*/*.ann | grep "Location" | wc -l >> PPE1-2024/Exercices/locations.txt
+
+echo "Annotations en 2017 :" >> PPE1-2024/Exercices/locations.txt
+cat ann/2017/*/*.ann | grep "Location" | wc -l >> PPE1-2024/Exercices/locations.txt
+
+echo "Annotations en 2018 :" >> PPE1-2024/Exercices/locations.txt
+cat ann/2018/*/*.ann | grep "Location" | wc -l >> PPE1-2024/Exercices/locations.txt
+
+2a.
+cat ann/2016/*/*.ann | grep "Location"| cut -f 3 | sort | uniq -c | sort | tail -n 15 > PPE1-2024/Exercices/classement_2016.txt
+
+cat ann/2017/*/*.ann | grep "Location"| cut -f 3 | sort | uniq -c | sort | tail -n 15 > PPE1-2024/Exercices/classement_2017.txt
+
+cat ann/2018/*/*.ann | grep "Location"| cut -f 3 | sort | uniq -c | sort | tail -n 15 > PPE1-2024/Exercices/classement_2018.txt
+
+2b.
+cat ann/*/02/*.ann | grep "Location" | cut -f 3 | sort | uniq -c | sort | tail -n 15 > PPE1-2024/Exercices/classement_fevrier.txt
