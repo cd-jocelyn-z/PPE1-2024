@@ -93,6 +93,138 @@ J'avais initialement l'intuition de créer une seconde clé SSH pour séparer me
 
 Cependant cela m'a permis d'apprendre davantage sur la possibilité d'utiliser plusieurs clés SSH pour une machine ou même une seule clé SSH pour plusieurs comptes GitHub - si nécessaire.
 
+## Séance 3: Les Flux d’Entrées/Sorties et les Pipelines pour Gestion de Fichiers
+
+### À l’aide des commandes simples de Bash
+
+#### Mon dossier de travail :
+    /Users/jocelyn/Workspace_B/active/sorbonne_nouvelle/prog_project_encadre/03-seance_03
+
+## Ligne de commande pour obtenir nos résultats
+#### Cmd1 :
+J'utilise la commande `cat` concaténer toutes les contenues de fichiers `.ann` existants dans tous les sous-dossiers à l'intérieur du dossier de travail `03-seance_03`.
+
+À l’aide de wildcard `*` pour parcourir tous les sous-dossiers dans `./ann/2016`/. Pour cette tâche, on ne s'intéresse qu’au premier niveau de profondeur, puisque chaque dossier d'année contient des sous-dossiers pour chaque mois (par ex. `./ann/2016/01`), et chaque dossier de mois ne contient que des fichiers `.ann`
+
+
+
+    cat ann/2016/*/*.ann
+
+<span  style="color:green"><strong>Résultat</strong></span> : *stdout* vers l’écran, chaque ligne correspond à une annotation.
+
+#### Cmd1 et Cmd2 communiquant et connectant à l'aide de pipe :
+Maintenant, je me demanade ce que je vais faire avec la sortie de *cmd1*? Je veux compter toutes les annotations dans l’année 2016. Cela concerne une autre commande !
+
+Pour se faire il nous faut rediriger le *stdout* de *cmd1* à la commande suivante pour communiquer la sortie à l’entrée un utilise le moyen du caractère *pipe*  `|`
+
+La deuxième commande `wc` (word-count), pour le comptage et avec une précision qu’on s'intéresse à la valeur de nombre de lignes du *stdout* de la *cmd1*, donc l’option `-l`.
+
+    cat ann/2016/*/*.ann | wc -l
+
+<span  style="color:green"><strong>Résultat</strong></span> : *stdout* vers l'écran, le nombre de lignes de *stdout* de *cmd1*.
+
+#### Cmd3 :
+Maintenant, je veux compter les annotations par années. Afin d'éviter d’avoir que le comptage brut. Pour se faire, on utilise la commande `echo` pour écrire les chaînes de caractères dans le stdout
+
+**Exemple :**
+
+>        Annotations en 2016 : 
+>               1234
+> 
+
+#### Lignes de commandes successives :
+
+    echo "Annotations en 2016 :"
+    cat ann/2016/*/*.ann | wc -l
+   <span  style="color:green"><strong>Résultat</strong></span> : *stdout* vers l'écran, des informations de la *cmd1* et *cmd2*, avec les informations textuelles ajoutées avec *cmd3* `echo`.
+
+Cela respecte le format où la première ligne contient le texte explicatif, et la deuxième ligne affiche le comptage d'annotations.
+
+**Note:** 
+Je me suis trompée en comptant les fichiers de .ann existant dans le dossier d'année (en utilisant la commande`ls` au lieu de `cat`) et non le comptage d'annotations.  Je me suis aussi trompé du format de résultats attendu. 
+  
+## Nos résultats dans un fichier texte
+
+> ### Redirection des sorties stdout et stdin dans un fichier
+
+À partir de là, le *stdout* reste l’écran (comme il l’est par défaut), on veut, ensuite rediriger la sortie *stdin* et *stdout* dans un fichier texte afin de sauvegarder les résultats de nos commandes dans un fichier comptes.txt. Pour se faire, on utilise les doubles chevrons `>>` cela écrit *stdout* dans le fichier que je mets comme argument en ajoutant la sortie à la fin du fichier ce qu’on veut pour réussir cette tâche. (les chevrons simples `>` écrasent le fichier si il existe déjà)
+
+    echo "Annotations en 2016 :" > PPE1-2024/Exercices/comptes.txt
+    ls ann/2016/*/*.ann | wc -l >> PPE1-2024/Exercices/comptes.txt
+
+  
+Ensuite, je refais ça pour toutes les années, en prenant en compte que j'ai déjà créé un dossier Exercices contenant un fichier texte comptes.txt.
+
+
+
+#### Lignes de commandes successives :
+    echo "Annotations en 2017 :" >> PPE1-2024/Exercices/comptes.txt
+    ls ann/2017/*/*.ann | wc -l >> PPE1-2024/Exercices/comptes.txt
+
+    echo "Annotations en 2018 :" >> PPE1-2024/Exercices/comptes.txt
+    ls ann/2018/*/*.ann | wc -l >> PPE1-2024/Exercices/comptes.txt
+
+`>> PPE1-2024/Exercices/comptes.txt` C'est important à préciser car je vais actualiser mon travail dans mon dépôt distant avec ce que j'ai fait dans mon dépôt local. Le dossier PPE1-2024 existe dans mon dossier de travail. 
+
+
+## **Obtenir les occurrences des annotations liées aux lieux :**
+Pour commencer, je sais que cette commande rend toutes les annotations :
+
+    cat ann/2016/*/*.ann 
+
+Pour filtrer afin d'avoir que des lignes qui contient "Location" je le fais à l'aide de la command `grep` qui nous permettra de rechercher le motif que l'on met en argument dans l'ensemble de contenus de fichier (dans notre cas).
+
+    cat ann/2016/*/*.ann | grep "Location"
+
+  <span  style="color:green"><strong>Résultat</strong></span> : stdout vers lécran des commandes cm1 + cmd2 grâce au pipe `|`
+
+
+Ensuite, pour rediriger le stdout dans un fichier j'utilise les doubles chevrons pour ajouter les sorties des ligne de commande successives à la fin du même fichier
+	
+	echo "Annotations en 2016 :" >> PPE1-2024/Exercices/locations.txt
+	cat ann/2016/*/*.ann | grep "Location" | wc -l >> PPE1-2024/Exercices/locations.txt
+
+	echo "Annotations en 2017 :" >> PPE1-2024/Exercices/locations.txt
+	cat ann/2017/*/*.ann | grep "Location" | wc -l >> PPE1-2024/Exercices/locations.txt
+
+	echo "Annotations en 2018 :" >> PPE1-2024/Exercices/locations.txt
+	cat ann/2018/*/*.ann | grep "Location" | wc -l >> PPE1-2024/Exercices/locations.txt
+
+#### Les commandes
+D’ici, je me suis renseignée sur les limitations et options des commandes cut, sort, tail et uniq, car j'avais que des notions sur leur utilisation mais non de leurs spécifités, ce que j'ai remarqué sera essentiel pour réussir cette tâche.
+
+**cmd cut**
+- Pour la commande `cut`, je savais que ce qui m'intéressait était l’option `-f`, car les fichiers d’annotations ont des tabulations pour délimiter et cette option a la tabulation par défaut en tant que délimiteur il me faudra juste préciser quel champ je voudrais filtrer.
+
+**cmd sort** 
+- Pour la commande `sort`, elle trie nos résultats soit par ordre alphabétique (si les caractères sont en ascii) ou par ordre numérique.
+
+**cmd tail**
+- Puis la commande `tail`, elle nous laisse choisir les dernières lignes d’une sortie qu’on souhaite à l'aide de l'option -n, alors `tail -n 15` pour avoir les 15 dernières lignes d’une sortie.
+
+**cmd uniq**
+- Après, j’apprends que la commande `uniq` ne fonctionne pas correctement si on ne trie pas nos informations. Alors il est primordial qu’on fasse cela. J’apprends que l'option `-c` est le plus pertinent pour notre cas car on veut le nombre d'occurrences d’un lieu qui précède le nom du lieu (dans notre cas c'est lieu car on vas faire cut au préalable pour obtenir les noms des lieux).
+
+  
+ Avec toutes ces informations, j'ai créé la ligne de commande suivante pour réussir cette tâche :
+#### Lignes de commandes successives :
+    cat ann/2016/*/*.ann | grep "Location"| cut -f 3 | sort | uniq -c | sort | tail -n 15 > PPE1-2024/Exercices/classement_2016.txt
+    cat ann/2017/*/*.ann | grep "Location"| cut -f 3 | sort | uniq -c | sort | tail -n 15 > PPE1-2024/Exercices/classement_2017.txt
+    cat ann/2018/*/*.ann | grep "Location"| cut -f 3 | sort | uniq -c | sort | tail -n 15 > PPE1-2024/Exercices/classement_2018.txt
+
+**Note :**
+- J'ai trié deux fois, une première fois `uniq -c` puisqu'il fallait mettre les localisation par ordre alphabétique pour que la commande unique puisse fonctionner correctement, puis une seconde fois pour mettre en ordre numérique le nombre d'occurrences de chaque lieu.
+- J'ai mis les stdout dans un fichier correspondant dans la même ligne de commande.
+
+### **Obtenir les occurrences des annotations liées aux lieux et au mois de février :**
+
+    cat ann/*/02/*.ann | grep "Location" | cut -f 3 | sort | uniq -c | sort | tail -n 15 > PPE1-2024/Exercices/classement_fevrier.txt
+
+- Pour se faire j'ai modifié un peu l'argument de la première commande 
+	- J'ai remplacé l'année avec `/*` pour indiquer dans toutes années confondues.
+	- Afin d'avoir le mois de mon choix, j'ai remplacé  `/*` avec `02`  pour le préciser au février, car on a déjà les annotations triés par an et pour chaque mois de l'année.
+	- Pour le *stdout* qui contenait le résultat, je l'ai redirigé vers un nouveau fichier dans mon dépôt local.
+
 
     
     
