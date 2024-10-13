@@ -1,4 +1,3 @@
-I like ponies.
 # Journal de bord du projet encadré
 
 ## Séance 1 - Les systèmes de fichiers
