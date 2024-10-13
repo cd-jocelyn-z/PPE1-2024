@@ -225,6 +225,8 @@ D’ici, je me suis renseignée sur les limitations et options des commandes cut
 	- Afin d'avoir le mois de mon choix, j'ai remplacé  `/*` avec `02`  pour le préciser au février, car on a déjà les annotations triés par an et pour chaque mois de l'année.
 	- Pour le *stdout* qui contenait le résultat, je l'ai redirigé vers un nouveau fichier dans mon dépôt local.
 
+# Séance 3
+## exercices git
 
     
     
