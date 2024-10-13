@@ -228,6 +228,8 @@ D’ici, je me suis renseignée sur les limitations et options des commandes cut
 # Séance 3
 ## exercices git
 Cette ligne doit rester après correction.
+lorem ipsum.
+Encore une erreur !
 
     
     
