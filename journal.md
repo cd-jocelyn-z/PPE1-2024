@@ -238,3 +238,68 @@ Cette ligne doit rester après correction.
 3lorem upsim
 4lorem ipsum
 mettre cette ligne de côté
+
+
+## Journal pour l'exercice git 
+
+### Note:
+
+J'ai décidé de revoir mon travail car je voulais vérifier ce que je faisais. Je me suis rendue compte que ce que j'avais dans mon dépôt distant n'était pas dans mon dépôt local. J'ai vite défait le git tag, puis fait un git fetch et git status, et j'ai vu un message indiquant que j'avais un commit en avance. Autrement dit, quand j'avais fait le commit des modifications du stash, je ne l'avais pas poussé. Ça m'était complètement sorti de la tête !
+
+En plus, j'avais oublié de mettre mon journal à jour pour cette partie. Ces exercices Git me poussent vraiment à être encore plus minutieux !
+
+----------
+### Exo 1
+J'ai bien vérifié que j'avais un tag ‘fin-ex-pipelines’ qui marquera le début du travail sur cette séance.
+### **Exo 2** : Défaire un commit déjà poussé
+
+Je trouve git revert très utile. En effet, je l'ai utilisé à plusieurs reprises, que ce soit pour refaire les questions 3 ou même pour refaire la question 4, afin de retourner là où j'étais avant de faire le tag.
+
+1.  J'utilisais git log pour trouver l'historique des commits.
+	- Je prenais le SHA, cette longue chaîne de chiffres et caractères, pour indiquer quel commit je voulais référencer lors du git revert.
+2.  git revert exemple_de_sha.
+3.  git push.
+
+Cette façon de gérer les erreurs m'a appris qu'avec git revert, on peut corriger les erreurs tout en conservant un historique propre.
+
+----------
+
+### **Exo 3** : Défaire un changement avant qu'il ne soit poussé au dépôt distant
+
+Je ne savais pas quoi faire pour retourner au tag, garder les changements, et les maintenir non-staged en même temps.
+
+J'ai même cherché ailleurs que dans les diapos pour trouver une solution, mais cela m'a poussé trop loin, et je me suis un peu perdue. Je pense avoir tout cassé, mais je suis finalement revenue aux diapos, et après avoir lu beaucoup d'explications ailleurs, ce que je voyais dans les diapos est devenu plus clair. J'ai enfin commencé à suivre les consignes.
+
+Les consignes de l'exercice étaient :
+
+-   Vous devrez retourner à la version du tag "git-seance3-defaire". La commande doit satisfaire les contraintes suivantes : — vous ne devez pas perdre les changements — les changements ne doivent pas être staged après le retour au tag.
+    
+-   `git reset --soft HEAD^`
+    
+    -   Satisfaisait en revenant à la dernière version du dépôt, mais il n'annule pas la mise en place (staging).
+-   `git reset HEAD^`
+    
+    -   Satisfait en revenant à la dernière version du dépôt, et il annule la mise en place (staging).
+
+J'ai donc continué avec `git reset HEAD^`. Mais le problème est que HEAD^ ne ramène que d'un commit en arrière, alors qu'on voulait retourner à la version du tag "git-seance3-defaire". C'est là que j'ai essayé de remplacer HEAD^ par le tag "git-seance3-defaire", et j'ai découvert que cela satisfaisait toutes les consignes.
+
+Pour la deuxième partie où il fallait basculer les changements, j'ai découvert une autre façon de gérer une erreur. Cela m'a montré que même une petite erreur ne nécessite pas toujours un `git reset`. Parfois, il faut choisir une approche plus adaptée.
+
+----------
+
+### **Exo 4** : Garder de côté des changements
+
+J'ai rencontré pas mal de problèmes pour vraiment créer un conflit, car je me retrouvais souvent avec deux commits en avance ou des branches divergentes. J'ai essayé `git rebase`, mais cela a réglé le conflit au lieu d'en créer un, alors que je pensais que cela pourrait provoquer un conflit. Encore une fois, cette partie était plus facile quand j'avais bien fait la partie 3, car certains changements étaient encore présents lors de la partie 4 et/ou je n'avais plus de problèmes de branches divergentes.
+
+### Pour créer un conflit pour cet exo (sans autre conflit auparavant...*finalement*)
+1.  J'ai fait des changements dans mon dépôt local et dans mon dépôt distant afin de créer un conflit.
+2.  Dans mon dépôt local, j'ai fait un `git fetch` et un `git status` pour m'assurer que tout était prêt à continuer le processus de création de conflit.
+3. J'ai fait un `git pull` et là, j'avais les bonnes conditions pour continuer cet exercice. Git m'a donné un message indiquant que soit je pouvais continuer, soit je devais trouver une autre façon de gérer le conflit. J'ai donc utilisé `git stash` avec le message indiqué pour cette tâche afin de mettre de côté mes changements.
+4.  J'ai fait un `git stash push -m ""` pour mettre de côté ces modifications dans un index, c'est-à-dire mes changements dans mon dépôt local, en ajoutant un message pour avoir le contexte du stash plus tard.
+5.  J'ai utilisé `git stash list` pour récupérer l'identifiant du stash, l'indice.
+6.  Ensuite, j'ai fait `git stash show -p stash@{0}` pour voir le diff de ce stash. Dans notre cas, celui de stash avec l'indice 0, car c'est le stash que l'on vient de créer.
+7.  Puis `git stash apply stash@{0}` pour appliquer ces modifications qui avaient été mises de côté.
+8.  Enfin, j'ai fait un `git stash drop stash@{0}`, car je préfère faire cette étape manuellement au cas où. Sinon, il aurait été plus efficace de faire `git stash pop`, qui permet automatiquement de supprimer le stash après l'avoir appliqué.
+
+C'était un exercice vraiment utile pour voir ces différences et apprendre plusieurs façons de gérer les conflits, tout en nous poussant à faire plus attention lorsque l'on gère des projets avec un dépôt local et distant !
+Maintnenat je vais créer le tag pour marquer la fin de cette séance.
