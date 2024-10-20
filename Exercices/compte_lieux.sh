@@ -9,14 +9,16 @@ if [ "$YEAR" != "*" ]
 then
     if [ "$MONTH" != "*" ]
     then
-	ANN_FILES="$ANN_FOLDER/$YEAR/$MONTH/*.ann"
+        ANN_FILES="$ANN_FOLDER/$YEAR/$MONTH/*.ann"
     else
-	ANN_FILES="$ANN_FOLDER/$YEAR/*/*"
+        ANN_FILES="$ANN_FOLDER/$YEAR/*/*.ann"
     fi
 else
     if [ "$MONTH" != "*" ]
     then
-	ANN_FILES="$ANN_FOLDER/*/$MONTH/*.ann"
+        ANN_FILES="$ANN_FOLDER/*/$MONTH/*.ann"
+    else
+        ANN_FILES="$ANN_FOLDER/*/*/*.ann"
     fi
 fi
 
