@@ -1,5 +1,9 @@
 #!/bin/bash
 ENTITY_TYPE=$1
+if [ $# -ne 1 ]; then
+    echo "Ce programme demande un argument: un type d'entité (ex: Location, Person, etc.)."
+    exit 1
+fi
 
 ANN_FOLDER="/Users/jocelyn/Workspace_B/active/sorbonne_nouvelle/prog_project_encadre/04-seance_04/ann"
 
