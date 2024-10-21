@@ -303,3 +303,73 @@ J'ai rencontré pas mal de problèmes pour vraiment créer un conflit, car je me
 
 C'était un exercice vraiment utile pour voir ces différences et apprendre plusieurs façons de gérer les conflits, tout en nous poussant à faire plus attention lorsque l'on gère des projets avec un dépôt local et distant !
 Maintnenat je vais créer le tag pour marquer la fin de cette séance.
+
+## Séance 4 : Scripts Bash
+
+Pour cette séance, j'ai appris à créer des scripts Bash pour effectuer des tâches similaires à celles des séances précédentes. Cependant, cette fois-ci, nous avons commencé à réduire les processus chronophages grâce aux scripts Bash.
+
+###  Mon dossier de travail
+
+    /Users/jocelyn/Workspace_B/active/sorbonne_nouvelle/prog_project_encadre/04-seance_04
+
+####  Note : Concernant le test des scripts
+
+-   À l'origine, les fichiers `.ann` étaient dans mon dossier de travail lorsque j'ai créé et testé les scripts. Pour tester les scripts, il suffit de mettre à jour la variable de chemin `ANN_FOLDER` dans les scripts en fonction du dossier de travail actuel.
+	- à l'exception du script `comptes.sh` après l'ajout de tests et des arguments.
+-   Les fichiers `.ann` doivent être placés dans le même dossier que les scripts pour que tout fonctionne correctement. Une fois le chemin mis à jour, les scripts seront capables de traiter les fichiers `.ann` comme prévu.
+
+Globalement, cette partie me rappelle Python, mais avec une syntaxe propre aux scripts Bash. Je trouve intéressant de découvrir les différentes syntaxes qui existent.
+
+### Création des scripts
+
+Pour le script du premier exercice, j’ai remarqué qu’il ressemblait beaucoup à Python. Ce qu'on avait s appris dans les séances précédentes, comme les commandes, les options, les pipes, et stdin/stdout, m’a énormément aidé pour cet exercice. Il s’agissait simplement de stocker la commande que nous utilisons habituellement pour effectuer une tâche, dans une variable.
+
+#### Exemple
+
+    LOCATION_COUNT=$(cat $YEAR_FOLDER/*/*.ann | grep "Location" | wc -l)
+
+Ensuite, pour afficher le stdout à l'écran, j’ai utilisé la commande `echo`. Je faisais tout en tenant compte des particularités de la syntaxe Bash, comme l’utilisation du `$` pour faire référence à une variable. J’ai également appris à comprendre les arguments qui sont placés en haut du script, ainsi que l’utilisation du shebang `(#!/bin/bash)` pour indiquer à la machine qu’il s’agit d’un fichier exécutable.
+
+#### Rendre un fichier exécutable
+
+Pour rendre un fichier exécutable, on utilise la commande :
+
+    chmod +x comptes.sh
+#### Exécution du script
+
+Pour exécuter le script, il suffit d'utiliser :
+
+    ./comptes.sh
+
+### Problèmes rencontrés pour script compte_lieux.sh
+
+J'ai eu des problèmes avec le script 2b car je croyais devoir utiliser des boucles pour simuler l’idée de l’arborescence des systèmes de fichiers. J'ai essayé plusieurs situations :
+
+    ./compte_lieux.sh 2016 02 15 
+    ./compte_lieux.sh "*" 02 15
+    ./compte_lieux.sh 2016 "*" 15
+Soit ma boucle fonctionnait correctement pour créer le chemin des fichiers nécessaires, soit, comme dans le cas de `./compte_lieux.sh "*" 02 15`, j'obtenais un résultat avec les 15 meilleurs classements, mais provenant de 2016, 2017, et 2018.
+
+Après réflexion et en utilisant `echo` pour voir ce qui se passe dans chaque étape de ma boucle, j’ai remarqué que tous les fichiers étaient parcourus, même ceux qui ne nous intéressaient pas. 
+
+J’ai donc modifié la façon de faire ce script en utilisant des conditions au lieu de boucles. Vers la fin je me suis rendue compte de faire attention d'un 4e cas où l’année et le mois sont `* * 15`.
+
+### Tests et validation des arguments pour les scripts
+
+Pendant cette partie, j'ai mieux compris les tests et validations des arguments nécessaires. En effet, les utilisateurs peuvent ne pas fournir les arguments requis ou bien les donner de façon incorrecte. Il est donc important de leur fournir des informations adéquates.
+
+Par exemple, pour mon code de `comptes.sh`, il est désormais possible d'utiliser le script en fournissant simplement le chemin du dossier où l'utilisateur a stocké les fichiers. Il est important de s'assurer que le script dispose des permissions nécessaires avec la commande `chmod +x comptes.sh`.
+
+Prenons l'exemple du script `compte_lieux.sh`. J’avais moi-même des incompréhensions sur l'utilisation de `*` comme argument. J'ai appris qu'il faut entourer `*` de guillemets, ce qui est essentiel à préciser pour les utilisateurs à l'aide de `echo` dans le script. De plus, il est nécessaire que les utilisateurs sachent comment un mois est représenté dans ce script. J'avais réfléchi qu'il serait peut-être possible, dans une autre situation, de permettre la saisie du mois sous forme de chaîne de lettres, par exemple "février", et de faire en sorte que le script le reconnaisse comme 02.
+
+### Explication du code dans le dernier diapo
+
+Le script Bash commence par une validation des arguments via un bloc de code conditionnel.
+
+Si l’argument fourni est incorrect (par exemple, il n'y a pas un seul argument), le script affiche un message demandant un argument et s'arrête. Cette validation permet de quitter le programme en cas d’erreur.
+
+Ensuite, plusieurs variables sont définies pour stocker des informations, comme `FICHIER_URLS`, qui stocke l’argument du programme (le fichier à lire). Deux compteurs, `OK` et `NOK`, sont également définis pour compter les lignes contenant une URL valide ou non.
+
+Une boucle `while` parcourt ensuite le fichier. Chaque ligne est assignée à la variable `LINE`, et on effectue des vérifications pour savoir si elle contient une URL valide. Si c’est le cas, on affiche un message et on incrémente le compteur `OK`. Sinon, on incrémente `NOK` pour les lignes invalides.
+
+À la fin de la boucle, le script affiche le nombre de lignes contenant des URLs valides (`OK`) et celles ne l'étant pas (`NOK`).
