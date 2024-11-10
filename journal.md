@@ -373,3 +373,192 @@ Ensuite, plusieurs variables sont définies pour stocker des informations, comme
 Une boucle `while` parcourt ensuite le fichier. Chaque ligne est assignée à la variable `LINE`, et on effectue des vérifications pour savoir si elle contient une URL valide. Si c’est le cas, on affiche un message et on incrémente le compteur `OK`. Sinon, on incrémente `NOK` pour les lignes invalides.
 
 À la fin de la boucle, le script affiche le nombre de lignes contenant des URLs valides (`OK`) et celles ne l'étant pas (`NOK`).
+
+## Séance 5 : Approches pour le web crawling - récupération du web depuis le terminal
+J'ai installé Helix editor pour éditer mes scripts bash vu qu'on fera de telles taches pour le projet en groupe, par exemple prendre les données du web. 
+
+https://docs.helix-editor.com/install.html
+
+Ensuite, on a appris sur differents approches pour récuperer de données.
+
+### Approches de récuperation de contenu du web
+
+### 1. Lynx
+Nécissite l'installation de Lynx dans notre machine
+pour navigeur le web en terminal à l'aide de : `brew install lynx`
+
+On découvert l'intêret avec Lynx
+- On a que de contenu texte, alors on peut utiliser pour prendre tout le contenu web.
+- exemple de stdout sur l'écran lors d'une naviagtion à une siteweb `lynx https://fr.wiktionary.org/wiki/cezve`
+
+Récuperer le contenu textuel (sans navigation)
+- `lynx -dump https://fr.wiktionary.org/wiki/cezve`
+
+### 2.1 Les commandes Bash wget et curl :
+Les prochaines approches ce sont deux commandes qui nous permet de récuperer des pages web sans passer par un navigateur. Leurs difference nous intêret. 
+- wget écrit dans un fichier et cURL écrit dans le terminal.
+
+#### cmd curl
+`cmd -option <url>`
+
+- `curl https://google.com`
+    - observations:
+        - nous donne du texte brut
+        - aucune capacité de navigation 
+        - on obtient le syntax HTML qui entourre le contenu. 
+    - L'intérêt ? On peut voir des informations utiles comme le type d'encodage de la page web, même si on doit les chercher nous-mêmes, car les infos ne sont pas organisées de manière très lisible.
+charset=UTF-8
+Infos sur la langue :
+lang="fr"
+
+- `curl -i https://google.com`
+    - observations:
+        - nous donne du texte brut
+        - aucune capacité de navigation 
+        - on obtient le syntax HTML qui entourre le contenu.
+    - L’intérêt ?
+Les informations qui peuvent nous intéresser sont organisées de manière plus lisible.
+Les noms d'informations clés sont en gras dans le bloc supérieure du retour de cette commande avec cette option.
+- Le résumé de la communication entre le client (nous) et le serveur qui héberge le site web est lisible. Ces informations sont diffusées par le protocole HTTP.
+
+> Note : dans le cas où on utilise par exemple http au lieu de https dans l’URL, par ex. :
+
+- http://github.com au lieu de https://github.com
+- on peut se prévaloir de la commande avec les deux options :
+    - `curl -I -L http://github.com`
+    - cela va nous rediriger vers la version sécurisée du site https://github.com et va récupérer des informations.
+
+
+#### 2.2 cmd wget
+`cmd -option <url>`
+
+- `wget https://google.com`
+    - Ça télécharge le contenu de la page et l'enregistre avec le même nom que la fin de l'URL
+
+- `wget -r https://google.com`
+    - elle télécharge la page principale et toutes les pages liées sur le site, donc super pratique pour copier des petits sites web. 
+
+- `wget -o google_crawl.html https://google.com`
+    - Ça enregistre le contenu dans google_crawl.html au lieu du nom par défaut.
+
+
+## Séance 6 :  Mini projet individuel
+### Mini projet de la séance 6:
+
+#### Exercice 1: lire les lignes d’un fichier en bash
+
+```bash
+while read -r line;
+do
+    echo ${line};
+done < "urls/fr.txt";
+```
+   
+Questions:
+
+1. Pourquoi ne pas utiliser cat ?
+
+- Pour répondre, il faut revoir leurs fonctionnalités. `cat` est utilisé pour afficher tout le contenu d'un fichier texte d'un coup ou bien pour combiner plusieurs fichiers et les afficher dans le stdout. La commande read traite chaque ligne d’un fichier, ce qui est ce qu’on veut ici. De plus, l'option `-r` permet de ne pas interpréter les backslashes, donc à chaque lecture de la ligne, on n'interprétera pas les `\`, et la ligne s'affichera correctement, ce qui est important dans notre cas car on traite des URLs qui contiennent des backslashes ! read avec l'option `-r` est donc le plus pertinent pour notre tâche et le contenu de notre fichier texte.
+
+2. Comment transformer "urls/fr.txt" en paramètre du script ?
+- on replace `urls/fr.txt` par `$1` pour indiquer qu'on on attendera un argument de l'utilisateur. 
+
+    2.1 Valider l’argument : ajouter le code nécessaire pour s’assurer qu’on donne bien un argument au script, sinon on s’arrête
+    ```bash
+    if [[ $# -eq 0 ]]
+    then
+        echo "il manque d'agrument"
+        exit 1
+    fi
+    ```
+    pour indiquer que si l'input de l'utilisateur est vide alors 0 arguments, on affiche un message et on sort du script.
+
+
+3. Comment afficher le numéro de ligne avant chaque URL (sur la même ligne) ?
+- à l'aide d'un compteur qu'on appelera count, on fait référence à sa valeur à chaque itération dans `echo` avec `$count`, on ajout `-e`pour prendre en compte de la tabulation.
+    
+    • Bien séparer les valeurs par des tabulations
+    ```bash
+    count=0
+    while read -r line
+    do
+        ((count++))
+        echo -e "$count\t${line}";
+    done < "$1";
+    ```
+Résulat du script après l'exercice 1:
+```bash
+if [[ $# -eq 0 ]]
+then
+    echo "il manque d'agrument"
+    exit 1
+fi
+
+count=0
+while read -r line
+do
+    ((count++))
+    echo -e "$count\t${line}";
+done < "$1";
+```
+
+#### Exercice 2 : récupérer les métadonnées de collecte
+
+Après l’exercice 1 fait, on va rajouter des informations à chaque ligne, toujours séparées par des tabulations :
+1. le code HTTP de réponse à la requête
+
+    1.1 les erreurs peuvent être corrigées
+2. l’encodage de la page, s’il est présent 
+3. le nombre de mots dans la page
+    
+Pour cette tâche on va faire référence aux `curl -I` car c'est ce pair de command et option qui nous montre des métadonnées dans une façon lisible(normalement), ce que nous aidera accomplir extraire ces informations lors de l'execution de notre sciprt.
+
+Prenons en exemple la caputure d'écran que j'ai pris pour l'un des urls dans le fichier fr.txt `curl -I https://fr.wikipedia.org/wiki/Robot_de_cuisine`
+
+Observations :
+- Pour obtenir le code HTTP on va chercher la toute première ligne du stdout
+- Pour obtenir l'encodage on cherchera "content-type"
+- Pour obtenir le nombre de mots dans la page, "content-length"
+
+![alt text](<Screenshot 2024-11-10 at 18.47.17.png>)
+
+
+Résulat du script après l'exercice 2 :
+```bash
+#!/usr/bin/env bash
+
+if [[ $# -eq 0 ]]
+then
+    echo "il manque un agrument"
+    exit 1
+fi
+
+count=0
+while read -r line
+do
+    ((count++))
+
+    if [[ ! "$line" =~ ^https?:// ]]
+    then
+        line="https://$line"
+    fi
+
+    stdout_a=$(curl -s -I -L "$line")
+    stdout_b=$(lynx -dump -nolist "$line")
+    code_http=$(echo "$stdout_a" | head -n 1 | cut -d' ' -f2)
+
+    if [ "$code_http" = "200" ]
+    then
+        encodage=$(echo "$stdout_a" | grep "^content-type" | cut -d'=' -f2)
+        encodage=${encodage:-"N/A"}
+        nb_mots=$(echo "$stdout_b" | wc -w | tr -d '[:space:]')
+
+        cleaned_output=$(echo -e "$count\t$line\t$code_http\t$encodage\t$nb_mots" | tr -d '\r')
+        echo "$cleaned_output"
+    else
+        echo -e "$count\t$line\t$code_http\tN/A\t0"
+    fi
+done <"$1";
+```
+NOTE: J'avais des problèmes avec les tabulations dans la sortie de nb_mots, mais j'ai trouvé une solution pour les nettoyer.
+
