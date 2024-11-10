@@ -518,10 +518,7 @@ Prenons en exemple la caputure d'écran que j'ai pris pour l'un des urls dans le
 Observations :
 - Pour obtenir le code HTTP on va chercher la toute première ligne du stdout
 - Pour obtenir l'encodage on cherchera "content-type"
-- Pour obtenir le nombre de mots dans la page, "content-length"
-
-![alt text](<Screenshot 2024-11-10 at 18.47.17.png>)
-
+- Pour obtenir le nombre de mots dans la page, il nous faudra utiliser `lynx -dump -nolist <url>`, on a vu dans la séance precedente que cette commande nous permet d'avoir un stdout de texte brut de la page web, sans capacité de navigation, et sans le syntaxe HTML.
 
 Résulat du script après l'exercice 2 :
 ```bash
