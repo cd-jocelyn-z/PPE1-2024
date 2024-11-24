@@ -6,6 +6,20 @@ then
     exit 1
 fi
 
+echo "<html>"
+echo "<head>"
+echo "    <meta charset=\"UTF-8\">"
+echo "</head>"
+echo "<body>"
+echo "    <table>"
+echo "        <tr>"
+echo "            <th>Numero</th>"
+echo "            <th>URL</th>"
+echo "            <th>Code HTTP</th>"
+echo "            <th>Encodage</th>"
+echo "            <th>Nb de mots</th>"
+echo "        </tr>"
+
 count=0
 while read -r line
 do
@@ -26,10 +40,24 @@ do
         encodage=${encodage:-"N/A"}
         nb_mots=$(echo "$stdout_b" | wc -w | tr -d '[:space:]')
 
-        cleaned_output=$(echo -e "$count\t$line\t$code_http\t$encodage\t$nb_mots" | tr -d '\r')
-        echo "$cleaned_output"
+        echo "        <tr>"
+        echo "            <td>$count</td>"
+        echo "            <td>$line</td>"
+        echo "            <td>$code_http</td>"
+        echo "            <td>$encodage</td>"
+        echo "            <td>$nb_mots</td>"
+        echo "        </tr>"
     else
-        echo -e "$count\t$line\t$code_http\tN/A\t0"
+        echo "        <tr>"
+        echo "            <td>$count</td>"
+        echo "            <td>$line</td>"
+        echo "            <td>$code_http</td>"
+        echo "            <td>N/A</td>"
+        echo "            <td>0</td>"
+        echo "        </tr>"
     fi
-done <"$1";
+done <"$1"
 
+echo "    </table>"
+echo "</body>"
+echo "</html>"
