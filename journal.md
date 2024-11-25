@@ -589,6 +589,14 @@ echo "        </tr>"
 ## Séance 8
 ### Mini-projet 3
 
+**Le site pour le mini-projet :**
+https://cd-jocelyn-z.github.io/PPE1-2024/index.html
+**La page pour le tableau :**
+https://cd-jocelyn-z.github.io/PPE1-2024/miniprojet/tableaux/tableau-fr.html
+
+Note :  J'ai mise à jour le fichier `index.html` pour que le lien redirige directement à `/miniprojet/tableaux/tableau-fr.html`. J'ai juste ajouté le lien vers le tableau au cas où.
+
+
 Pour cette séance, j'ai appris à utiliser le framework CSS Bulma pour styliser une page web et à l'intégrer dans notre script Bash afin de générer des pages contenant des tableaux en HTML avec un style appliqué. À l'aide de l'hébergement de pages sur GitHub, il a été possible, dans cette partie du mini-projet, de visualiser le rendu final et d'imaginer comment les résultats apparaîtront lors de la réalisation de nos tâches en groupe.
 
 J'ai apprécié consulter leur documentation et découvrir que l'utilisation de ce framework permet également de rendre nos pages responsive sur différents types d'écrans.
