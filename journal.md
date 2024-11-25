@@ -591,41 +591,55 @@ echo "        </tr>"
 
 **Le site pour le mini-projet :**
 https://cd-jocelyn-z.github.io/PPE1-2024/index.html
+
 **La page pour le tableau :**
 https://cd-jocelyn-z.github.io/PPE1-2024/miniprojet/tableaux/tableau-fr.html
+---
+#### Note :
+- J'ai mise à jour le fichier `index.html` pour que le lien redirige directement à `/miniprojet/tableaux/tableau-fr.html`. J'ai juste ajouté le lien vers le tableau au cas où.
+- J'ai nettoyé la partie de la syntaxe HTML dans le script Bash.
+- J'ai également corrigé la sortie du script vers le bon dossier. Auparavant, je spécifiais manuellement la sortie du script.
+- J'ai remplacé "N/A" par "", afin que ce soit plus cohérent avec l'absence d'informations.
 
-Note :  J'ai mise à jour le fichier `index.html` pour que le lien redirige directement à `/miniprojet/tableaux/tableau-fr.html`. J'ai juste ajouté le lien vers le tableau au cas où.
+Pour cette séance, j'ai appris à utiliser le framework CSS Bulma pour styliser une page web et à l'intégrer dans notre script Bash afin de générer des pages contenant des tableaux en HTML avec un style appliqué.
 
-
-Pour cette séance, j'ai appris à utiliser le framework CSS Bulma pour styliser une page web et à l'intégrer dans notre script Bash afin de générer des pages contenant des tableaux en HTML avec un style appliqué. À l'aide de l'hébergement de pages sur GitHub, il a été possible, dans cette partie du mini-projet, de visualiser le rendu final et d'imaginer comment les résultats apparaîtront lors de la réalisation de nos tâches en groupe.
+À l'aide de l'hébergement de pages sur GitHub, il a été possible, dans cette partie du mini-projet de visualiser le rendu final et d'imaginer comment les résultats apparaîtront lors de la réalisation de nos tâches en groupe.
 
 J'ai apprécié consulter leur documentation et découvrir que l'utilisation de ce framework permet également de rendre nos pages responsive sur différents types d'écrans.
 
-Exemple d’intégration dans le script :
+Étant donné que notre objectif est d'utiliser Bulma, et que des tableaux risquent parfois de dépasser la largeur de l'écran, je dirais qu'il soit judicieux d'utiliser la classe table-container, qui permet de créer une table défilable en l'encapsulant dans un élément table-container.
 
-```à l'aide de
-echo "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+#### Pour rediriger la sortie du script dans le bon dossier :
 ```
-- ici on fait attention à ajouter le caractrerèes d'echape.
+exec > "../tableaux/tableau-fr.html"
+```
+- On ajoute `../` car le script ne s'exécute pas dans le même dossier où on va stocker notre fichier. On doit donc remonter d'un niveau, car c'est à ce niveau que se trouve le dossier dans lequel on souhait enregistrer la sortie de notre script.
 
-Gestion des tableaux :
-Étant donné que notre objectif est d'utiliser Bulma, et que des tableaux risquent parfois de dépasser la largeur de l'écran, il est judicieux d'utiliser la classe table-container, qui permet de créer une table défilable en l'encapsulant dans un élément table-container.
+#### Ajout dans l'entête du fichir html pour utiliser Bulma et un exemple après un nettoyage de l'utilisation des echo dans mon script :
 
-Pour styliser les tableaux :
-Afin d’appliquer un style simple à nos tableaux, voici les commandes à inclure dans l’entête du fichier HTML généré :
+````
+echo "<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+    <title>Mini-projet tableau</title>
+    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css\">
+</head>
+...
+
+````
+
+#### Ensuite,  l'application de classe Bulma au tableau :
 
 ```
-echo "    <title>Mini-projet tableau</title>"
-echo "    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css\">"
+...
+<body>
+    <div class=\"table-container\">
+      <table class=\"table is-bordered is-hoverable is-striped is-fullwidth\">
+...
 ```
 
-Ensuite, appliquez les classes Bulma au tableau concerné comme suit :
+- Ces étapes permettent de générer un tableau simple et responsive avec Bulma.
 
-```
-echo "      <table class=\"table is-bordered is-hoverable is-striped is-fullwidth\">"
-
-echo "  ... "
-
-echo "      </table">"
-```
-- Ces étapes permettent de générer un tableau simple et responsive avec Bulma. C’était intéressant de voir comment décomposer cette partie en petites étapes pour automatiser certaines tâches dans le script Bash.
+C’était intéressant de voir comment décomposer cette partie en petites étapes pourautomatiser certaines tâches dans le script Bash.
