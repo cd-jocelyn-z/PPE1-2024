@@ -559,3 +559,65 @@ done <"$1";
 ```
 NOTE: J'avais des problèmes avec les tabulations dans la sortie de nb_mots, mais j'ai trouvé une solution pour les nettoyer.
 
+## Séance 7
+### Mini - projet 2
+Pour cette séance j'ai appris sur comment on peut automatiser la tâche de créer des tableaux dans un fichier html
+
+Pour l'implementer j'ai modifié mon ancien script qui extrait des informations à partir d'un fichier txt qui contenanit des information qu'on souhaite d'une page comme le nb de url, le code http, l'encodage de la page, et les nb de mots dans le page concernée.
+
+J'ai ajouté des balise et les syntax concernant au HTML dans
+```echo "" par exemple
+echo "<html>"
+echo "<head>"
+echo "    <meta charset=\"UTF-8\">"
+echo "</head>"
+echo "<body>"
+echo "    <table>"
+echo "        <tr>"
+echo "            <th>Numero</th>"
+echo "            <th>URL</th>"
+echo "            <th>Code HTTP</th>"
+echo "            <th>Encodage</th>"
+echo "            <th>Nb de mots</th>"
+echo "        </tr>"
+````
+
+
+**Note**: j'avais mal compris qu'il fallait modifier notre script, alors au début je directement créer un fichier html où j'ai créer la table et avait mise tout les informations manuellment.
+
+
+## Séance 8
+### Mini-projet 3
+
+Pour cette séance, j'ai appris à utiliser le framework CSS Bulma pour styliser une page web et à l'intégrer dans notre script Bash afin de générer des pages contenant des tableaux en HTML avec un style appliqué. À l'aide de l'hébergement de pages sur GitHub, il a été possible, dans cette partie du mini-projet, de visualiser le rendu final et d'imaginer comment les résultats apparaîtront lors de la réalisation de nos tâches en groupe.
+
+J'ai apprécié consulter leur documentation et découvrir que l'utilisation de ce framework permet également de rendre nos pages responsive sur différents types d'écrans.
+
+Exemple d’intégration dans le script :
+
+```à l'aide de
+echo "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+```
+- ici on fait attention à ajouter le caractrerèes d'echape.
+
+Gestion des tableaux :
+Étant donné que notre objectif est d'utiliser Bulma, et que des tableaux risquent parfois de dépasser la largeur de l'écran, il est judicieux d'utiliser la classe table-container, qui permet de créer une table défilable en l'encapsulant dans un élément table-container.
+
+Pour styliser les tableaux :
+Afin d’appliquer un style simple à nos tableaux, voici les commandes à inclure dans l’entête du fichier HTML généré :
+
+```
+echo "    <title>Mini-projet tableau</title>"
+echo "    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css\">"
+```
+
+Ensuite, appliquez les classes Bulma au tableau concerné comme suit :
+
+```
+echo "      <table class=\"table is-bordered is-hoverable is-striped is-fullwidth\">"
+
+echo "  ... "
+
+echo "      </table">"
+```
+- Ces étapes permettent de générer un tableau simple et responsive avec Bulma. C’était intéressant de voir comment décomposer cette partie en petites étapes pour automatiser certaines tâches dans le script Bash.
