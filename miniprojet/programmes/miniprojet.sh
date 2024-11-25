@@ -1,28 +1,32 @@
 #!/usr/bin/env bash
 
-if [[ $# -eq 0 ]]
+if [[ $# -ne 1 ]]
 then
-    echo "il manque un agrument"
+    echo "Il manque exactement un argument"
     exit 1
 fi
 
-echo "<html>"
-echo "<head>"
-echo "    <meta charset=\"UTF-8\">"
-echo "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
-echo "    <title>Mini-projet tableau</title>"
-echo "    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css\">"
-echo "</head>"
-echo "<body>"
-echo "    <div class=\"table-container\">"
-echo "      <table class=\"table is-bordered is-hoverable is-striped is-fullwidth\">"
-echo "        <tr>"
-echo "            <th>Numero</th>"
-echo "            <th>URL</th>"
-echo "            <th>Code HTTP</th>"
-echo "            <th>Encodage</th>"
-echo "            <th>Nb de mots</th>"
-echo "        </tr>"
+fichier_urls=$1
+exec > "../tableaux/tableau-fr.html"
+
+echo "<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+    <title>Mini-projet tableau</title>
+    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css\">
+</head>
+<body>
+    <div class=\"table-container\">
+      <table class=\"table is-bordered is-hoverable is-striped is-fullwidth\">
+         <tr>
+            <th>Numero</th>
+            <th>URL</th>
+            <th>Code HTTP</th>
+            <th>Encodage</th>
+            <th>Nb de mots</th>
+         </tr>"
 
 count=0
 while read -r line
@@ -40,29 +44,29 @@ do
 
     if [ "$code_http" = "200" ]
     then
-        encodage=$(echo "$stdout_a" | grep "^content-type" | cut -d'=' -f2)
-        encodage=${encodage:-"N/A"}
+        encodage=$(echo "$stdout_a" | grep "^content-type" | cut -d'=' -f2 | tr -d '\r\n')
+        encodage=${encodage:-""}
         nb_mots=$(echo "$stdout_b" | wc -w | tr -d '[:space:]')
 
-        echo "        <tr>"
-        echo "            <td>$count</td>"
-        echo "            <td>$line</td>"
-        echo "            <td>$code_http</td>"
-        echo "            <td>$encodage</td>"
-        echo "            <td>$nb_mots</td>"
-        echo "        </tr>"
+        echo "                <tr>
+                    <td>$count</td>
+                    <td>$line</td>
+                    <td>$code_http</td>
+                    <td>$encodage</td>
+                    <td>$nb_mots</td>
+                </tr>"
     else
-        echo "        <tr>"
-        echo "            <td>$count</td>"
-        echo "            <td>$line</td>"
-        echo "            <td>$code_http</td>"
-        echo "            <td>N/A</td>"
-        echo "            <td>0</td>"
-        echo "        </tr>"
+        echo "                 <tr>
+                    <td>$count</td>
+                    <td>$line</td>
+                    <td>$code_http</td>
+                    <td></td>
+                    <td>0</td>
+                </tr>"
     fi
-done <"$1"
+done <"$fichier_urls"
 
-echo "    </table>"
-echo "   </div>"
-echo "</body>"
-echo "</html>"
+echo "    </table>
+   </div>
+</body>
+</html>"
