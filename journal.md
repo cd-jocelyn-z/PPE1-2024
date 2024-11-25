@@ -561,11 +561,11 @@ NOTE: J'avais des problèmes avec les tabulations dans la sortie de nb_mots, mai
 
 ## Séance 7
 ### Mini - projet 2
-Pour cette séance j'ai appris sur comment on peut automatiser la tâche de créer des tableaux dans un fichier html
+Pour cette séance, j'ai appris comment automatiser la tâche de création de tableaux dans un fichier HTML.
 
-Pour l'implementer j'ai modifié mon ancien script qui extrait des informations à partir d'un fichier txt qui contenanit des information qu'on souhaite d'une page comme le nb de url, le code http, l'encodage de la page, et les nb de mots dans le page concernée.
+Pour l'implémenter, j'ai modifié mon ancien script, qui extrait des informations à partir d'un fichier texte contenant des URLs. Ce script récupère des informations comme le numéro de l'URL, le code HTTP, l'encodage de la page, et le nombre de mots dans la page concernée.
 
-J'ai ajouté des balise et les syntax concernant au HTML dans
+J'ai ajouté des balises et la syntaxe correspondant au HTML dans le script.
 ```echo "" par exemple
 echo "<html>"
 echo "<head>"
@@ -583,7 +583,7 @@ echo "        </tr>"
 ````
 
 
-**Note**: j'avais mal compris qu'il fallait modifier notre script, alors au début je directement créer un fichier html où j'ai créer la table et avait mise tout les informations manuellment.
+**Note**: J'avais mal compris qu'il fallait modifier notre script. Au début, j'ai directement créé un fichier HTML où j'ai créé la table et entré toutes les informations manuellement.
 
 
 ## Séance 8
