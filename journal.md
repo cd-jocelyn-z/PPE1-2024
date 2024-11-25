@@ -592,7 +592,7 @@ echo "        </tr>"
 **Le site pour le mini-projet :**
 https://cd-jocelyn-z.github.io/PPE1-2024/index.html
 
-**La page pour le tableau :**
+**La page pour le tableau :** 
 https://cd-jocelyn-z.github.io/PPE1-2024/miniprojet/tableaux/tableau-fr.html
 ---
 #### Note :
